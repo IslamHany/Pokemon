@@ -16,9 +16,9 @@ function PokemonLayout({ children }: React.PropsWithChildren) {
               Page Controls
             </Button>
           </Link>
-          <Link href="/infinite">
+          <Link href="/loadmore">
             <Button mt="4" mb="4">
-              Infinite Scroll
+              Load More
             </Button>
           </Link>
         </Flex>

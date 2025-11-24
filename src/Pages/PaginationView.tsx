@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PokemonLayout from "../Components/PokemonLayout";
 import { ButtonGroup, IconButton, Pagination, Center } from "@chakra-ui/react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
@@ -9,17 +9,10 @@ const PAGE_SIZE = 20;
 
 function PaginationView() {
   const [page, setPage] = useState(1);
-  const { error, isLoading, dataCount, data, fetchPokemons } =
+  const { error, isLoading, dataCount, data } =
     usePokemonList(page);
 
-  useEffect(() => {
-    (async () => {
-      await fetchPokemons(1);
-    })();
-  }, []);
-
   const pageChangeHandler = async (newPage: number) => {
-    await fetchPokemons(newPage);
     setPage(newPage);
   };
 

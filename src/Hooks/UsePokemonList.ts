@@ -33,7 +33,7 @@ const usePokemonList = (page: number) => {
     }
   };
 
-  return { data, dataCount, isLoading, error, fetchPokemons };
+  return { data, dataCount, isLoading, error };
 };
 
 export default usePokemonList;

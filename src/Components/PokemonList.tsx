@@ -7,15 +7,17 @@ interface PokemonListProps {
   isLoading: boolean;
   error: string | null;
   data: PokemonListItem[];
+  hideSpinner?: boolean;
 }
 
 const PokemonList: React.FC<PokemonListProps> = ({
   isLoading,
   error,
   data,
+  hideSpinner = false,
 }) => {
   const renderPokemons = () => {
-    if (isLoading) {
+    if (isLoading && !hideSpinner) {
       return <LoadingSpinner />;
     }
 
