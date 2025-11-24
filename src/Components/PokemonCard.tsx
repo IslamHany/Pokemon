@@ -1,23 +1,33 @@
 import { Card, Image, Center, Text, Box } from "@chakra-ui/react";
-function PokemonCard() {
+import type React from "react";
+import { getPokemonIdFromUrl } from "../lib/utils";
+
+interface PokemonCardProps {
+  imgUrl: string;
+  name: string;
+}
+
+const PokemonCard: React.FC<PokemonCardProps> = ({ imgUrl, name }) => {
+  const pokemonId = getPokemonIdFromUrl(imgUrl);
+
   return (
     <Box width="300px">
       <Card.Root maxW="sm" overflow="hidden">
         <Center>
           <Image
             boxSize="100px"
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
-            alt="Pokemon Image"
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`}
+            alt={name}
           />
         </Center>
         <Center>
-          <Text fontSize="xl" fontWeight="bold" mt="4">
-            Bulbasaur
+          <Text fontSize="xl" fontWeight="bold" mt="2" mb="4">
+            {name}
           </Text>
         </Center>
       </Card.Root>
     </Box>
   );
-}
+};
 
 export default PokemonCard;
