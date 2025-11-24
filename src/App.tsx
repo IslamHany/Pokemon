@@ -1,7 +1,9 @@
+import PokemonCard from "@/Components/PokemonCard";
+
 function App() {
   return (
     <>
-    Hello WORLD
+    <PokemonCard />
     </>
   )
 }
