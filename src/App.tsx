@@ -1,11 +1,13 @@
-import PokemonCard from "@/Components/PokemonCard";
+import { Switch, Route, Redirect } from "wouter";
+import PaginationView from "./Pages/PaginationView";
 
 function App() {
   return (
-    <>
-    <PokemonCard />
-    </>
-  )
+    <Switch>
+      <Route path="/" component={() => <Redirect to="/pagination" />} />
+      <Route path="/pagination" component={PaginationView} />
+    </Switch>
+  );
 }
 
 export default App
