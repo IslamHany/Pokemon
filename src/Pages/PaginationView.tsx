@@ -2,19 +2,18 @@ import { useState, useEffect } from "react";
 import PokemonLayout from "../Components/PokemonLayout";
 import { ButtonGroup, IconButton, Pagination, Center } from "@chakra-ui/react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
-import { getPokemonList } from "../Services/PokemonApi";
 import LoadingSpinner from "../Components/ui/LoadingSpinner";
 import PokemonCard from "../Components/PokemonCard";
 import ErrorAlert from "../Components/ui/ErrorAlert";
+import usePokemonList from "../Hooks/UsePokemonList";
 
 const PAGE_SIZE = 20;
 
 function PaginationView() {
   const [page, setPage] = useState(1);
-  const [data, setData] = useState<any[]>([]);
-  const [dataCount, setDataCount] = useState(100);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { error, isLoading, dataCount, data, fetchPokemons } = usePokemonList(
+    page
+  );
 
   useEffect(() => {
     (async () => {
@@ -25,24 +24,6 @@ function PaginationView() {
   const pageChangeHandler = async (newPage: number) => {
     await fetchPokemons(newPage);
     setPage(newPage);
-  };
-
-  const fetchPokemons = async (page: number) => {
-    setIsLoading(true);
-    const offset = (page - 1) * PAGE_SIZE;
-
-    try {
-      const response = await getPokemonList(PAGE_SIZE, offset);
-
-      console.log("Fetched Pokemons:", response.data);
-      setData((response.data?.results as any[]) ?? []);
-      setDataCount(response.data?.count ?? 0);
-      setError(null);
-    } catch (error) {
-      setError("Failed to fetch Pokemons.");
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   const renderPokemons = () => {
