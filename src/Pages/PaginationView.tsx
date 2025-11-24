@@ -1,26 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PokemonLayout from "../Components/PokemonLayout";
 import { ButtonGroup, IconButton, Pagination, Center } from "@chakra-ui/react";
-import { HiChevronLeft, HiChevronRight } from "react-icons/hi"
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { getPokemonList } from "../Services/PokemonApi";
+import LoadingSpinner from "../Components/ui/LoadingSpinner";
 
 const PAGE_SIZE = 10;
 
 function PaginationView() {
   const [page, setPage] = useState(1);
+  const [data, setData] = useState<any[]>([]);
+  const [dataCount, setDataCount] = useState(100);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const pageChangeHandler = (newPage: number) => {
+  useEffect(() => {
+    (async () => {
+      await fetchPokemons(1);
+    })();
+  }, []);
+
+  const pageChangeHandler = async (newPage: number) => {
+    await fetchPokemons(newPage);
     setPage(newPage);
-  }
+  };
+
+  const fetchPokemons = async (page: number) => {
+    setIsLoading(true);
+    const offset = (page - 1) * PAGE_SIZE;
+    const response = await getPokemonList(PAGE_SIZE, offset);
+
+    console.log("Fetched Pokemons:", response.data);
+    setData((response.data?.results as any[]) ?? []);
+    setDataCount(response.data?.count ?? 0);
+    setIsLoading(false);
+  };
   return (
     <>
-      <PokemonLayout></PokemonLayout>
+      <PokemonLayout>{isLoading && <LoadingSpinner />}</PokemonLayout>
 
       <Center mt="4">
         <Pagination.Root
-          count={1328}
+          count={dataCount}
           page={page}
           padding={PAGE_SIZE}
-          onPageChange={(e) => pageChangeHandler(e.page)}
+          onPageChange={async (e) => await pageChangeHandler(e.page)}
         >
           <ButtonGroup variant="ghost" size="sm">
             <Pagination.PrevTrigger asChild>
