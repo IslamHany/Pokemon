@@ -2,18 +2,15 @@ import { useState, useEffect } from "react";
 import PokemonLayout from "../Components/PokemonLayout";
 import { ButtonGroup, IconButton, Pagination, Center } from "@chakra-ui/react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
-import LoadingSpinner from "../Components/ui/LoadingSpinner";
-import PokemonCard from "../Components/PokemonCard";
-import ErrorAlert from "../Components/ui/ErrorAlert";
 import usePokemonList from "../Hooks/UsePokemonList";
+import PokemonList from "../Components/PokemonList";
 
 const PAGE_SIZE = 20;
 
 function PaginationView() {
   const [page, setPage] = useState(1);
-  const { error, isLoading, dataCount, data, fetchPokemons } = usePokemonList(
-    page
-  );
+  const { error, isLoading, dataCount, data, fetchPokemons } =
+    usePokemonList(page);
 
   useEffect(() => {
     (async () => {
@@ -26,26 +23,11 @@ function PaginationView() {
     setPage(newPage);
   };
 
-  const renderPokemons = () => {
-    if (isLoading) {
-      return <LoadingSpinner />;
-    }
-
-    if (error) {
-      return <ErrorAlert message={error} />;
-    }
-
-    return data.map((pokemon) => (
-      <PokemonCard
-        imgUrl={pokemon.url}
-        name={pokemon.name}
-        key={pokemon.name}
-      />
-    ));
-  };
   return (
     <>
-      <PokemonLayout>{renderPokemons()}</PokemonLayout>
+      <PokemonLayout>
+        <PokemonList isLoading={isLoading} error={error} data={data} />
+      </PokemonLayout>
 
       <Center mt="4">
         <Pagination.Root

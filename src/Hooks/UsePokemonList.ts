@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { getPokemonList } from "../Services/PokemonApi";
+import type { PokemonListItem } from "../lib/types";
 
 const PAGE_SIZE = 20;
 
 const usePokemonList = (page: number) => {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<PokemonListItem[]>([]);
   const [dataCount, setDataCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,7 +23,7 @@ const usePokemonList = (page: number) => {
     try {
       const response = await getPokemonList(PAGE_SIZE, offset);
 
-      setData((response.data?.results as any[]) ?? []);
+      setData((response.data?.results as PokemonListItem[]) ?? []);
       setDataCount(response.data?.count ?? 0);
       setError(null);
     } catch (error) {
