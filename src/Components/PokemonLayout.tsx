@@ -1,8 +1,10 @@
 import { Center, Button, Flex } from "@chakra-ui/react";
 import { BsFillLightningChargeFill } from "react-icons/bs";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
 function PokemonLayout({ children }: React.PropsWithChildren) {
+  const [location] = useLocation();
+
   return (
     <>
       <Center>
@@ -12,12 +14,12 @@ function PokemonLayout({ children }: React.PropsWithChildren) {
       <Center>
         <Flex gap="4">
           <Link href="/pagination">
-            <Button mt="4" mb="4">
+            <Button mt="4" mb="4" variant={location === "/pagination" ? "solid" : "outline"}>
               Page Controls
             </Button>
           </Link>
           <Link href="/loadmore">
-            <Button mt="4" mb="4">
+            <Button mt="4" mb="4" variant={location === "/loadmore" ? "solid" : "outline"}>
               Load More
             </Button>
           </Link>
@@ -26,7 +28,7 @@ function PokemonLayout({ children }: React.PropsWithChildren) {
 
       <Center>
         <Flex gap="4" flexWrap="wrap" justifyContent="center">
-            {children}
+          {children}
         </Flex>
       </Center>
     </>
