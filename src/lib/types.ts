@@ -9,3 +9,8 @@ export interface PokemonListItem {
   name: string;
   url: string;
 }
+
+export interface PokemonDetail {
+  weight: number;
+  height: string;
+}
